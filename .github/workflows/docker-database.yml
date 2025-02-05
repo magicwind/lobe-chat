@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: lobehub/lobe-chat-database
+          images: fengxu1211/lobe-chat-database
           tags: |
             type=raw,value=latest
             type=ref,event=tag
@@ -38,7 +38,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile.database  # 指定使用 Dockerfile.database 文件
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
