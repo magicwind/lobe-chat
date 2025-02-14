@@ -3,6 +3,7 @@ import { ResolvingViewport } from 'next';
 import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 import { isRtlLang } from 'rtl-detect';
+import { GoogleTagManager } from '@next/third-parties/google'
 
 import Analytics from '@/components/Analytics';
 import { DEFAULT_LANG, LOBE_LOCALE_COOKIE } from '@/const/locale';
@@ -29,6 +30,7 @@ const RootLayout = async ({ children, modal }: RootLayoutProps) => {
 
   return (
     <html dir={direction} lang={locale} suppressHydrationWarning>
+      <GoogleTagManager gtmId="GTM-KTX9QV38" />
       <body>
         <GlobalProvider>
           <AuthProvider>
