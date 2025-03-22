@@ -334,6 +334,7 @@ export class LobeBedrockAI implements LobeRuntimeAI {
         headers: options?.headers,
       });
     } catch (e) {
+      console.log('Got an error. This is the request:', request);
       const err = e as Error & { $metadata: any };
 
       throw AgentRuntimeError.chat({
