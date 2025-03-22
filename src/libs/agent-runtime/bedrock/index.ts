@@ -283,14 +283,19 @@ export class LobeBedrockAI implements LobeRuntimeAI {
   ): Promise<Response> => {
     const modelId = payload.model;
     const newMessages = [];
+    const systemMessages = [];
 
     for (const message of payload.messages) {
-      const crole = message.role === 'user' ? ConversationRole.USER : ConversationRole.ASSISTANT;
-      const newMess = {
-        content: [{ text: message.content.toString() }],
-        role: crole,
-      };
-      newMessages.push(newMess);
+      if (message.role === 'system') {
+        systemMessages.push({ text: message.content.toString() });
+      } else {
+        const crole = message.role === 'user' ? ConversationRole.USER : ConversationRole.ASSISTANT;
+        const newMess = {
+          content: [{ text: message.content.toString() }],
+          role: crole,
+        };
+        newMessages.push(newMess);
+      }
     }
     // Step 4: Configure the streaming request
     // Optional parameters to control the model's response:
@@ -307,12 +312,14 @@ export class LobeBedrockAI implements LobeRuntimeAI {
       },
       messages: newMessages,
       modelId,
+      system: systemMessages,
     };
 
     // Step 5: Send and process the streaming request
     // - Send the request to the model
     // - Process each chunk of the streaming response
     try {
+      // console.log('request', request);
       const response = await this.client.send(new ConverseStreamCommand(request));
       const claudeStream = createBedrockConverseStream(response);
 

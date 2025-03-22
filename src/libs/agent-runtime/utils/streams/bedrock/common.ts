@@ -32,11 +32,9 @@ const chatStreamable2 = async function* (stream: AsyncIterable<ConverseStreamOut
     if (response.contentBlockDelta) {
       try {
         const chunk = response.contentBlockDelta.delta?.text;
-        console.log('chunk', chunk);
         yield chunk;
       } catch (e) {
         console.log('bedrock converse stream error:', e);
-
         yield '';
       }
     }
