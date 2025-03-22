@@ -284,11 +284,19 @@ export class LobeBedrockAI implements LobeRuntimeAI {
     const modelId = payload.model;
     const newMessages = [];
     const systemMessages = [];
+    let isFirstMessage = true;
 
     for (const message of payload.messages) {
       if (message.role === 'system') {
         systemMessages.push({ text: message.content.toString() });
       } else {
+        // make sure the first message is a user message.
+        if (isFirstMessage && message.role !== 'user') {
+          isFirstMessage = false;
+          continue;
+        }
+        isFirstMessage = false;
+
         const crole = message.role === 'user' ? ConversationRole.USER : ConversationRole.ASSISTANT;
         const newMess = {
           content: [{ text: message.content.toString() }],

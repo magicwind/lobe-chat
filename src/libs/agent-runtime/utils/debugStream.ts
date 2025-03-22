@@ -27,7 +27,7 @@ export const debugStream = async (stream: ReadableStream) => {
       chunkValue = value;
 
       // if the value is ArrayBuffer, we need to decode it
-      if ('byteLength' in value) {
+      if (value.includes('byteLength')) {
         chunkValue = decoder.decode(value, { stream: true });
       } else if (typeof value !== 'string') {
         chunkValue = JSON.stringify(value);
