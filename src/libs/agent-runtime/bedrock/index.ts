@@ -1,9 +1,18 @@
 import {
+  BedrockClient,
+  FoundationModelSummary,
+  ListFoundationModelsCommand,
+} from '@aws-sdk/client-bedrock';
+import {
   BedrockRuntimeClient,
+  ConversationRole,
+  ConverseStreamCommand,
   InvokeModelCommand,
   InvokeModelWithResponseStreamCommand,
 } from '@aws-sdk/client-bedrock-runtime';
 import { experimental_buildLlama2Prompt } from 'ai/prompts';
+
+import type { ChatModelCard } from '@/types/llm';
 
 import { LobeRuntimeAI } from '../BaseAI';
 import { AgentRuntimeErrorType } from '../error';
@@ -22,8 +31,16 @@ import { StreamingResponse } from '../utils/response';
 import {
   AWSBedrockClaudeStream,
   AWSBedrockLlamaStream,
+  createBedrockConverseStream,
   createBedrockStream,
 } from '../utils/streams';
+
+export interface BedrockModelCard {
+  displayName: string;
+  inputTokenLimit: number;
+  name: string;
+  outputTokenLimit: number;
+}
 
 export interface LobeBedrockAIParams {
   accessKeyId?: string;
@@ -34,6 +51,7 @@ export interface LobeBedrockAIParams {
 
 export class LobeBedrockAI implements LobeRuntimeAI {
   private client: BedrockRuntimeClient;
+  private bedrockClient: BedrockClient;
 
   region: string;
 
@@ -49,10 +67,55 @@ export class LobeBedrockAI implements LobeRuntimeAI {
       },
       region: this.region,
     });
+    this.bedrockClient = new BedrockClient({
+      credentials: {
+        accessKeyId: accessKeyId,
+        secretAccessKey: accessKeySecret,
+        sessionToken: sessionToken,
+      },
+      region: this.region,
+    });
+  }
+
+  async models() {
+    console.log('call bedrock models');
+
+    const input = {
+      // byProvider: 'STRING_VALUE',
+      // byCustomizationType: 'FINE_TUNING' || 'CONTINUED_PRE_TRAINING',
+      // byOutputModality: 'TEXT' || 'IMAGE' || 'EMBEDDING',
+      // byInferenceType: 'ON_DEMAND' || 'PROVISIONED',
+    };
+
+    const command = new ListFoundationModelsCommand(input);
+
+    const response = await this.bedrockClient.send(command);
+
+    const modelList = response.modelSummaries || [];
+
+    return modelList
+      .map((model: FoundationModelSummary) => {
+        let modelName = model.modelId?.replace(/^models\//, '');
+        if (modelName?.includes('amazon.nova')) {
+          modelName = modelName.replace('amazon.nova', 'us.amazon.nova');
+        }
+        return {
+          contextWindowTokens: 100_000,
+          displayName: model.modelName,
+          enabled: false,
+          functionCall: modelName?.toLowerCase().includes('gemini'),
+          id: modelName,
+          vision:
+            modelName?.toLowerCase().includes('nova-pro') ||
+            modelName?.toLowerCase().includes('nova-lite'),
+        };
+      })
+      .filter(Boolean) as ChatModelCard[];
   }
 
   async chat(payload: ChatStreamPayload, options?: ChatCompetitionOptions) {
     if (payload.model.startsWith('meta')) return this.invokeLlamaModel(payload, options);
+    if (payload.model.includes('nova')) return this.invokeNovaModel(payload, options);
 
     return this.invokeClaudeModel(payload, options);
   }
@@ -195,6 +258,72 @@ export class LobeBedrockAI implements LobeRuntimeAI {
       }
       // Respond with the stream
       return StreamingResponse(AWSBedrockLlamaStream(prod, options?.callback), {
+        headers: options?.headers,
+      });
+    } catch (e) {
+      const err = e as Error & { $metadata: any };
+
+      throw AgentRuntimeError.chat({
+        error: {
+          body: err.$metadata,
+          message: err.message,
+          region: this.region,
+          type: err.name,
+        },
+        errorType: AgentRuntimeErrorType.ProviderBizError,
+        provider: ModelProvider.Bedrock,
+        region: this.region,
+      });
+    }
+  };
+
+  private invokeNovaModel = async (
+    payload: ChatStreamPayload,
+    options?: ChatCompetitionOptions,
+  ): Promise<Response> => {
+    const modelId = payload.model;
+    const newMessages = [];
+
+    for (const message of payload.messages) {
+      const crole = message.role === 'user' ? ConversationRole.USER : ConversationRole.ASSISTANT;
+      const newMess = {
+        content: [{ text: message.content.toString() }],
+        role: crole,
+      };
+      newMessages.push(newMess);
+    }
+    // Step 4: Configure the streaming request
+    // Optional parameters to control the model's response:
+    // - maxTokens: maximum number of tokens to generate
+    // - temperature: randomness (max: 1.0, default: 0.7)
+    //   OR
+    // - topP: diversity of word choice (max: 1.0, default: 0.9)
+    // Note: Use either temperature OR topP, but not both
+    const request = {
+      inferenceConfig: {
+        maxTokens: 4096, // The maximum response length
+        temperature: payload.temperature, // Using temperature for randomness control
+        //topP: 0.9,        // Alternative: use topP instead of temperature
+      },
+      messages: newMessages,
+      modelId,
+    };
+
+    // Step 5: Send and process the streaming request
+    // - Send the request to the model
+    // - Process each chunk of the streaming response
+    try {
+      const response = await this.client.send(new ConverseStreamCommand(request));
+      const claudeStream = createBedrockConverseStream(response);
+
+      const [prod, debug] = claudeStream.tee();
+
+      if (process.env.DEBUG_BEDROCK_CHAT_COMPLETION === '1') {
+        debugStream(debug).catch(console.error);
+      }
+
+      // Respond with the stream
+      return StreamingResponse(AWSBedrockClaudeStream(prod, options?.callback), {
         headers: options?.headers,
       });
     } catch (e) {

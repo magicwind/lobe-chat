@@ -25,6 +25,61 @@ const bedrockChatModels: AIChatModelCard[] = [
   {
     abilities: {
       functionCall: true,
+      vision: false,
+    },
+    contextWindowTokens: 128_000,
+    description:
+      'Nova Micro is a text - text understanding foundation model. It is multilingual and can reason over text.',
+    displayName: 'Nova Micro',
+    enabled: true,
+    id: 'us.amazon.nova-micro-v1:0',
+    pricing: {
+      input: 0.035,
+      output: 0.14,
+    },
+    releasedAt: '2024-11-02',
+    type: 'chat',
+  },
+  {
+    abilities: {
+      functionCall: true,
+      vision: true,
+    },
+    contextWindowTokens: 300_000,
+    description:
+      'Nova Lite is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+    displayName: 'Nova Lite',
+    enabled: true,
+    id: 'us.amazon.nova-lite-v1:0',
+    pricing: {
+      input: 0.06,
+      output: 0.24,
+    },
+    releasedAt: '2024-11-02',
+    type: 'chat',
+  },
+  {
+    abilities: {
+      functionCall: true,
+      vision: true,
+    },
+    contextWindowTokens: 300_000,
+    description:
+      'Nova Pro is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+    displayName: 'Nova Pro',
+    enabled: true,
+    id: 'us.amazon.nova-pro-v1:0',
+    pricing: {
+      input: 0.8,
+      output: 3.2,
+    },
+    releasedAt: '2024-11-02',
+    type: 'chat',
+  },
+  /*
+  {
+    abilities: {
+      functionCall: true,
       vision: true,
     },
     contextWindowTokens: 200_000,
@@ -240,6 +295,7 @@ const bedrockChatModels: AIChatModelCard[] = [
     },
     type: 'chat',
   },
+  */
 ];
 
 export const allModels = [...bedrockChatModels];

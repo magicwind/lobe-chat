@@ -1,11 +1,24 @@
+import Anthropic from '@anthropic-ai/sdk';
 import { InvokeModelWithResponseStreamResponse } from '@aws-sdk/client-bedrock-runtime';
 
 import { nanoid } from '@/utils/uuid';
 
 import { ChatStreamCallbacks } from '../../../types';
-import { transformAnthropicStream } from '../anthropic';
-import { StreamStack, createCallbacksTransformer, createSSEProtocolTransformer } from '../protocol';
+// import { transformAnthropicStream } from '../anthropic';
+import {
+  StreamProtocolChunk,
+  StreamStack,
+  createCallbacksTransformer,
+  createSSEProtocolTransformer,
+} from '../protocol';
 import { createBedrockStream } from './common';
+
+const transformAnthropicStream2 = (
+  chunk: Anthropic.MessageStreamEvent,
+  stack: StreamStack,
+): StreamProtocolChunk => {
+  return { data: chunk, id: stack.id, type: 'text' };
+};
 
 export const AWSBedrockClaudeStream = (
   res: InvokeModelWithResponseStreamResponse | ReadableStream,
@@ -16,6 +29,6 @@ export const AWSBedrockClaudeStream = (
   const stream = res instanceof ReadableStream ? res : createBedrockStream(res);
 
   return stream
-    .pipeThrough(createSSEProtocolTransformer(transformAnthropicStream, streamStack))
+    .pipeThrough(createSSEProtocolTransformer(transformAnthropicStream2, streamStack))
     .pipeThrough(createCallbacksTransformer(cb));
 };

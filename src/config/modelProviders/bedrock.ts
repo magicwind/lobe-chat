@@ -27,6 +27,49 @@ const Bedrock: ModelProviderCard = {
     },
 */
     {
+      contextWindowTokens: 128_000,
+      description:
+        'Nova Micro is a text - text understanding foundation model. It is multilingual and can reason over text.',
+      displayName: 'Nova Micro',
+      enabled: true,
+      functionCall: true,
+      id: 'us.amazon.nova-micro-v1:0',
+      pricing: {
+        input: 0.035,
+        output: 0.14,
+      },
+      vision: false,
+    },
+    {
+      contextWindowTokens: 300_000,
+      description:
+        'Nova Lite is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+      displayName: 'Nova Lite',
+      enabled: true,
+      functionCall: true,
+      id: 'us.amazon.nova-lite-v1:0',
+      pricing: {
+        input: 0.06,
+        output: 0.24,
+      },
+      vision: true,
+    },
+    {
+      contextWindowTokens: 300_000,
+      description:
+        'Nova Pro is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+      displayName: 'Nova Pro',
+      enabled: true,
+      functionCall: true,
+      id: 'us.amazon.nova-pro-v1:0',
+      pricing: {
+        input: 0.8,
+        output: 3.2,
+      },
+      vision: true,
+    },
+    /*
+    {
       contextWindowTokens: 200_000,
       description:
         'Claude 3.5 Sonnet 提升了行业标准，性能超过竞争对手模型和 Claude 3 Opus，在广泛的评估中表现出色，同时具有我们中等层级模型的速度和成本。',
@@ -204,6 +247,7 @@ const Bedrock: ModelProviderCard = {
         output: 3.5,
       },
     },
+    */
     /*
     // TODO: Not support for now
     {
