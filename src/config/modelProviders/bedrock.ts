@@ -34,10 +34,6 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'us.amazon.nova-micro-v1:0',
-      pricing: {
-        input: 0.035,
-        output: 0.14,
-      },
       vision: false,
     },
     {
@@ -48,10 +44,6 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'us.amazon.nova-lite-v1:0',
-      pricing: {
-        input: 0.06,
-        output: 0.24,
-      },
       vision: true,
     },
     {
@@ -62,10 +54,6 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'us.amazon.nova-pro-v1:0',
-      pricing: {
-        input: 0.8,
-        output: 3.2,
-      },
       vision: true,
     },
     /*
