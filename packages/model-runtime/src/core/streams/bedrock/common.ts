@@ -1,4 +1,6 @@
 import {
+  ConverseStreamOutput,
+  ConverseStreamResponse,
   InvokeModelWithResponseStreamResponse,
   ResponseStream,
 } from '@aws-sdk/client-bedrock-runtime';
@@ -26,8 +28,27 @@ const chatStreamable = async function* (stream: AsyncIterable<ResponseStream>) {
   }
 };
 
+const chatStreamable2 = async function* (stream: AsyncIterable<ConverseStreamOutput>) {
+  for await (const response of stream) {
+    if (response.contentBlockDelta) {
+      try {
+        const chunk = response.contentBlockDelta.delta?.text;
+        yield chunk;
+      } catch (e) {
+        console.log('bedrock converse stream error:', e);
+        yield '';
+      }
+    }
+    // } else {
+    //   yield response;
+    // }
+  }
+};
 /**
  * covert the bedrock response to a readable stream
  */
 export const createBedrockStream = (res: InvokeModelWithResponseStreamResponse) =>
   readableFromAsyncIterable(chatStreamable(res.body!));
+
+export const createBedrockConverseStream = (res: ConverseStreamResponse) =>
+  readableFromAsyncIterable(chatStreamable2(res.stream!));

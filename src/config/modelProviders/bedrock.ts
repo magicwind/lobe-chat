@@ -27,38 +27,48 @@ const Bedrock: ModelProviderCard = {
     },
 */
     {
-      contextWindowTokens: 200_000,
+      contextWindowTokens: 128_000,
       description:
-        'Claude 3.7 sonnet 是 Anthropic 最快的下一代模型。与 Claude 3 Haiku 相比，Claude 3.7 Sonnet 在各项技能上都有所提升，并在许多智力基准测试中超越了上一代最大的模型 Claude 3 Opus。',
-      displayName: 'Claude 3.7 Sonnet',
+        'Nova Micro is a text - text understanding foundation model. It is multilingual and can reason over text.',
+      displayName: 'Nova Micro',
       enabled: true,
       functionCall: true,
-      id: 'us.anthropic.claude-3-7-sonnet-20250219-v1:0',
-      maxOutput: 8192,
-      releasedAt: '2025-02-24',
+      id: 'us.amazon.nova-micro-v1:0',
+      pricing: {
+        input: 0.035,
+        output: 0.14,
+      },
+      vision: false,
     },
     {
-      contextWindowTokens: 200_000,
+      contextWindowTokens: 300_000,
       description:
-        'Claude 3.7 sonnet Extended thinking 是 Anthropic 最快的下一代模型。与 Claude 3 Haiku 相比，Claude 3.7 Sonnet 在各项技能上都有所提升，并在许多智力基准测试中超越了上一代最大的模型 Claude 3 Opus。',
-      displayName: 'Claude 3.7 Sonnet Extended thinking',
+        'Nova Lite is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+      displayName: 'Nova Lite',
       enabled: true,
       functionCall: true,
-      id: 'us.anthropic.claude-3-7-sonnet-20250219-v1:0',
-      maxOutput: 64_000,
-      releasedAt: '2025-02-24',
+      id: 'us.amazon.nova-lite-v1:0',
+      pricing: {
+        input: 0.06,
+        output: 0.24,
+      },
+      vision: true,
     },
     {
-      contextWindowTokens: 200_000,
+      contextWindowTokens: 300_000,
       description:
-        'Claude 3.5 Haiku 是 Anthropic 最快的下一代模型。与 Claude 3 Haiku 相比，Claude 3.5 Haiku 在各项技能上都有所提升，并在许多智力基准测试中超越了上一代最大的模型 Claude 3 Opus。',
-      displayName: 'Claude 3.5 Haiku',
+        'Nova Pro is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+      displayName: 'Nova Pro',
       enabled: true,
       functionCall: true,
-      id: 'anthropic.claude-3-5-haiku-20241022-v1:0',
-      maxOutput: 8192,
-      releasedAt: '2024-11-05',
+      id: 'us.amazon.nova-pro-v1:0',
+      pricing: {
+        input: 0.8,
+        output: 3.2,
+      },
+      vision: true,
     },
+    /*
     {
       contextWindowTokens: 200_000,
       description:
@@ -67,6 +77,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
+      pricing: {
+        input: 3,
+        output: 15,
+      },
       vision: true,
     },
     {
@@ -77,6 +91,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'us.anthropic.claude-3-5-sonnet-20241022-v2:0',
+      pricing: {
+        input: 3,
+        output: 15,
+      },
       vision: true,
     },
     {
@@ -87,6 +105,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'anthropic.claude-3-5-sonnet-20240620-v1:0',
+      pricing: {
+        input: 3,
+        output: 15,
+      },
       vision: true,
     },
     {
@@ -97,6 +119,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'anthropic.claude-3-haiku-20240307-v1:0',
+      pricing: {
+        input: 0.25,
+        output: 1.25,
+      },
       vision: true,
     },
     {
@@ -107,6 +133,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'anthropic.claude-3-sonnet-20240229-v1:0',
+      pricing: {
+        input: 3,
+        output: 15,
+      },
       vision: true,
     },
     {
@@ -117,6 +147,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'anthropic.claude-3-opus-20240229-v1:0',
+      pricing: {
+        input: 15,
+        output: 75,
+      },
       vision: true,
     },
     {
@@ -125,6 +159,10 @@ const Bedrock: ModelProviderCard = {
         'Claude 2 的更新版，具有双倍的上下文窗口，以及在长文档和 RAG 上下文中的可靠性、幻觉率和基于证据的准确性的改进。',
       displayName: 'Claude 2.1',
       id: 'anthropic.claude-v2:1',
+      pricing: {
+        input: 8,
+        output: 24,
+      },
     },
     {
       contextWindowTokens: 100_000,
@@ -132,6 +170,10 @@ const Bedrock: ModelProviderCard = {
         'Anthropic 在从复杂对话和创意内容生成到详细指令跟随的广泛任务中都表现出高度能力的模型。',
       displayName: 'Claude 2.0',
       id: 'anthropic.claude-v2',
+      pricing: {
+        input: 8,
+        output: 24,
+      },
     },
     {
       contextWindowTokens: 100_000,
@@ -139,6 +181,10 @@ const Bedrock: ModelProviderCard = {
         '一款快速、经济且仍然非常有能力的模型，可以处理包括日常对话、文本分析、总结和文档问答在内的一系列任务。',
       displayName: 'Claude Instant',
       id: 'anthropic.claude-instant-v1',
+      pricing: {
+        input: 0.8,
+        output: 2.4,
+      },
     },
     {
       contextWindowTokens: 128_000,
@@ -148,6 +194,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'meta.llama3-1-8b-instruct-v1:0',
+      pricing: {
+        input: 0.22,
+        output: 0.22,
+      },
     },
     {
       contextWindowTokens: 128_000,
@@ -157,6 +207,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'meta.llama3-1-70b-instruct-v1:0',
+      pricing: {
+        input: 0.99,
+        output: 0.99,
+      },
     },
     {
       contextWindowTokens: 128_000,
@@ -166,6 +220,10 @@ const Bedrock: ModelProviderCard = {
       enabled: true,
       functionCall: true,
       id: 'meta.llama3-1-405b-instruct-v1:0',
+      pricing: {
+        input: 5.32,
+        output: 16,
+      },
     },
     {
       contextWindowTokens: 8000,
@@ -173,6 +231,10 @@ const Bedrock: ModelProviderCard = {
         'Meta Llama 3 是一款面向开发者、研究人员和企业的开放大型语言模型 (LLM)，旨在帮助他们构建、实验并负责任地扩展他们的生成 AI 想法。作为全球社区创新的基础系统的一部分，它非常适合计算能力和资源有限、边缘设备和更快的训练时间。',
       displayName: 'Llama 3 8B Instruct',
       id: 'meta.llama3-8b-instruct-v1:0',
+      pricing: {
+        input: 0.3,
+        output: 0.6,
+      },
     },
     {
       contextWindowTokens: 8000,
@@ -180,7 +242,12 @@ const Bedrock: ModelProviderCard = {
         'Meta Llama 3 是一款面向开发者、研究人员和企业的开放大型语言模型 (LLM)，旨在帮助他们构建、实验并负责任地扩展他们的生成 AI 想法。作为全球社区创新的基础系统的一部分，它非常适合内容创建、对话 AI、语言理解、研发和企业应用。',
       displayName: 'Llama 3 70B Instruct',
       id: 'meta.llama3-70b-instruct-v1:0',
+      pricing: {
+        input: 2.65,
+        output: 3.5,
+      },
     },
+    */
     /*
     // TODO: Not support for now
     {

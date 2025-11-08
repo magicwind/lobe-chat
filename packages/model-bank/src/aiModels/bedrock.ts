@@ -25,16 +25,54 @@ const bedrockChatModels: AIChatModelCard[] = [
   {
     abilities: {
       functionCall: true,
-      reasoning: true,
-      structuredOutput: true,
+      vision: false,
+    },
+    contextWindowTokens: 128_000,
+    description:
+      'Nova Micro is a text - text understanding foundation model. It is multilingual and can reason over text.',
+    displayName: 'Nova Micro',
+    enabled: true,
+    id: 'us.amazon.nova-micro-v1:0',
+    pricing: {
+      units: [
+        { name: 'textInput', rate: 3, strategy: 'fixed', unit: 'millionTokens' },
+        { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
+      ],
+    },
+    releasedAt: '2024-11-02',
+    type: 'chat',
+  },
+  {
+    abilities: {
+      functionCall: true,
       vision: true,
     },
-    contextWindowTokens: 200_000,
+    contextWindowTokens: 300_000,
     description:
-      'Claude 3.7 sonnet 是 Anthropic 最快的下一代模型。与 Claude 3 Haiku 相比，Claude 3.7 Sonnet 在各项技能上都有所提升，并在许多智力基准测试中超越了上一代最大的模型 Claude 3 Opus。',
-    displayName: 'Claude 3.7 Sonnet',
+      'Nova Lite is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+    displayName: 'Nova Lite',
     enabled: true,
-    id: 'us.anthropic.claude-3-7-sonnet-20250219-v1:0',
+    id: 'us.amazon.nova-lite-v1:0',
+    pricing: {
+      units: [
+        { name: 'textInput', rate: 3, strategy: 'fixed', unit: 'millionTokens' },
+        { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
+      ],
+    },
+    releasedAt: '2024-11-02',
+    type: 'chat',
+  },
+  {
+    abilities: {
+      functionCall: true,
+      vision: true,
+    },
+    contextWindowTokens: 300_000,
+    description:
+      'Nova Pro is a multimodal understanding foundation model. It is multilingual and can reason over text, images and videos.',
+    displayName: 'Nova Pro',
+    enabled: true,
+    id: 'us.amazon.nova-pro-v1:0',
     maxOutput: 8192,
     pricing: {
       units: [
@@ -42,9 +80,10 @@ const bedrockChatModels: AIChatModelCard[] = [
         { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
       ],
     },
-    releasedAt: '2025-02-24',
+    releasedAt: '2024-11-02',
     type: 'chat',
   },
+  /*
   {
     abilities: {
       functionCall: true,
@@ -56,12 +95,9 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Claude 3.5 Sonnet',
     enabled: true,
     id: 'anthropic.claude-3-5-sonnet-20241022-v2:0',
-    maxOutput: 8192,
     pricing: {
-      units: [
-        { name: 'textInput', rate: 3, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 3,
+      output: 15,
     },
     releasedAt: '2024-10-22',
     type: 'chat',
@@ -77,12 +113,10 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Claude 3.5 Sonnet v2 (Inference profile)',
     enabled: true,
     id: 'us.anthropic.claude-3-5-sonnet-20241022-v2:0',
-    maxOutput: 8192,
+    maxOutput: 4096,
     pricing: {
-      units: [
-        { name: 'textInput', rate: 3, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 3,
+      output: 15,
     },
     releasedAt: '2024-10-22',
     type: 'chat',
@@ -97,13 +131,11 @@ const bedrockChatModels: AIChatModelCard[] = [
       'Claude 3.5 Sonnet 提升了行业标准，性能超过竞争对手模型和 Claude 3 Opus，在广泛的评估中表现出色，同时具有我们中等层级模型的速度和成本。',
     displayName: 'Claude 3.5 Sonnet 0620',
     enabled: true,
+
     id: 'anthropic.claude-3-5-sonnet-20240620-v1:0',
-    maxOutput: 8192,
     pricing: {
-      units: [
-        { name: 'textInput', rate: 3, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 3,
+      output: 15,
     },
     releasedAt: '2024-06-20',
     type: 'chat',
@@ -121,10 +153,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     id: 'anthropic.claude-3-haiku-20240307-v1:0',
     maxOutput: 4096,
     pricing: {
-      units: [
-        { name: 'textInput', rate: 0.25, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 1.25, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 0.25,
+      output: 1.25,
     },
     releasedAt: '2024-03-07',
     type: 'chat',
@@ -141,10 +171,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     enabled: true,
     id: 'anthropic.claude-3-sonnet-20240229-v1:0',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 3, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 3,
+      output: 15,
     },
     type: 'chat',
   },
@@ -160,10 +188,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     id: 'anthropic.claude-3-opus-20240229-v1:0',
     maxOutput: 4096,
     pricing: {
-      units: [
-        { name: 'textInput', rate: 15, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 75, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 15,
+      output: 75,
     },
     releasedAt: '2024-02-29',
     type: 'chat',
@@ -175,10 +201,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Claude 2.1',
     id: 'anthropic.claude-v2:1',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 8, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 24, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 8,
+      output: 24,
     },
     type: 'chat',
   },
@@ -189,10 +213,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Claude 2.0',
     id: 'anthropic.claude-v2',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 8, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 24, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 8,
+      output: 24,
     },
     type: 'chat',
   },
@@ -203,10 +225,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Claude Instant',
     id: 'anthropic.claude-instant-v1',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 0.8, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 2.4, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 0.8,
+      output: 2.4,
     },
     type: 'chat',
   },
@@ -221,10 +241,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     enabled: true,
     id: 'meta.llama3-1-8b-instruct-v1:0',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 0.22, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 0.22, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 0.22,
+      output: 0.22,
     },
     type: 'chat',
   },
@@ -239,10 +257,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     enabled: true,
     id: 'meta.llama3-1-70b-instruct-v1:0',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 0.99, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 0.99, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 0.99,
+      output: 0.99,
     },
     type: 'chat',
   },
@@ -257,10 +273,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     enabled: true,
     id: 'meta.llama3-1-405b-instruct-v1:0',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 5.32, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 16, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 5.32,
+      output: 16,
     },
     type: 'chat',
   },
@@ -271,10 +285,8 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Llama 3 8B Instruct',
     id: 'meta.llama3-8b-instruct-v1:0',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 0.3, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 0.6, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 0.3,
+      output: 0.6,
     },
     type: 'chat',
   },
@@ -285,13 +297,12 @@ const bedrockChatModels: AIChatModelCard[] = [
     displayName: 'Llama 3 70B Instruct',
     id: 'meta.llama3-70b-instruct-v1:0',
     pricing: {
-      units: [
-        { name: 'textInput', rate: 2.65, strategy: 'fixed', unit: 'millionTokens' },
-        { name: 'textOutput', rate: 3.5, strategy: 'fixed', unit: 'millionTokens' },
-      ],
+      input: 2.65,
+      output: 3.5,
     },
     type: 'chat',
   },
+  */
 ];
 
 export const allModels = [...bedrockChatModels];
